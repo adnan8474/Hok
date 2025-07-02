@@ -2,26 +2,32 @@ const { useState, useEffect } = React;
 
 function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
   return (
-    <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-gray-800/90 backdrop-blur-sm py-2' : 'bg-transparent py-4'}`}> 
-      <nav className="container mx-auto flex items-center justify-between px-4">
+    <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-gray-800/90 backdrop-blur-sm py-2' : 'bg-transparent py-4'}`}>
+      <nav className="max-w-screen-xl mx-auto flex items-center justify-between px-4">
         <div className="flex items-center space-x-2">
           <img src="poctify-logo.png" alt="POCTIFY logo" className="w-10 h-10" />
-          <div>
-            <h1 className="text-xl font-bold">POCTIFY Interactive Tools</h1>
-            <p className="text-sm text-teal-300">Smarter diagnostics. One tool at a time.</p>
+          <div className="leading-tight">
+            <h1 className="text-lg sm:text-xl font-bold">POCTIFY Interactive Tools</h1>
+            <p className="hidden sm:block text-xs text-teal-300">Smarter diagnostics. One tool at a time.</p>
           </div>
         </div>
-        <ul className="flex space-x-4 font-semibold">
-          <li><a href="https://poctify.com" className="hover:text-teal-400">← Back to POCTIFY</a></li>
-          <li><a href="#tools" className="hover:text-teal-400">Tools</a></li>
-          <li><a href="#about" className="hover:text-teal-400">About</a></li>
-          <li><a href="#suggest" className="hover:text-teal-400">Suggest a Tool</a></li>
+        <button onClick={() => setOpen(!open)} className="sm:hidden text-teal-400 focus:outline-none">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        <ul className={`sm:flex font-semibold sm:space-x-4 ${open ? 'block' : 'hidden'} sm:static absolute top-full left-0 right-0 bg-gray-900 sm:bg-transparent p-4 sm:p-0 space-y-2 sm:space-y-0`}> 
+          <li><a href="https://poctify.com" className="block hover:text-teal-400" onClick={() => setOpen(false)}>← Back to POCTIFY</a></li>
+          <li><a href="#tools" className="block hover:text-teal-400" onClick={() => setOpen(false)}>Tools</a></li>
+          <li><a href="#about" className="block hover:text-teal-400" onClick={() => setOpen(false)}>About</a></li>
+          <li><a href="#suggest" className="block hover:text-teal-400" onClick={() => setOpen(false)}>Suggest a Tool</a></li>
         </ul>
       </nav>
     </header>
